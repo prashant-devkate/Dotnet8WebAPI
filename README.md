@@ -99,7 +99,7 @@ Still Database connection won't get established.
 
 # 7. Event Logs (Troubleshooting and Monitoring)
 
-In App Service → Support & troubleshooting → Diagnose and solve problems.
-Category: Diagnostic tools → Application Event Logs.
-Check for errors like "Login failed" (indicates missing DB user) or token issues (check identity status).
-Advanced: Use Kudu (https://<app>.scm.azurewebsites.net) → Debug console → Log stream for real-time logs.
+* In App Service → Support & troubleshooting → Diagnose and solve problems.
+* Category: Diagnostic tools → Application Event Logs.
+* Check for errors like "Login failed" (indicates missing DB user) or token issues (check identity status).
+* Advanced: Use Kudu (https://<app>.scm.azurewebsites.net) → Debug console → Log stream for real-time logs.
