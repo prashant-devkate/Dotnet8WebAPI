@@ -1,6 +1,9 @@
+using Azure.Core;
+using Azure.Identity;
 using Dotnet8WebAPI.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
@@ -23,9 +26,29 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-// Configure Database
+/*// Configure Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));*/
+
+// var connectionString = "Server=tcp:sqlserver-dotnet8webapi-uscentral-dev-001.database.windows.net;Database=GDW2;Encrypt=True;";
+
+var tokenCredential = new DefaultAzureCredential();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null
+            );
+        });
+});
+
+
 
 var app = builder.Build();
 
